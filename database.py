@@ -69,3 +69,38 @@ class Database():
         finally:
             if self.conn:
                 self.conn.close()
+
+# -------------------------- LOGIN -------------------------- #
+
+    def get_user_profile(self, email):
+        try:
+            self.connect()
+            self.c.execute(f'SELECT * from users where email="{email}"')
+            return self.c.fetchone()
+        except Exception as e:
+            print(e)
+        finally:
+            if self.conn:
+                self.conn.close()
+    
+    def insert_user_profile(self, email, password):
+        try:
+            self.connect()
+            self.c.execute(f'INSERT into users values(NULL, "{email}", "{password}")')
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+        finally:
+            if self.conn:
+                self.conn.close()
+
+    def check_email(self, email):
+        try:
+            self.connect()
+            self.c.execute(f'SELECT * from users where email="{email}"')
+            return self.c.fetchone()
+        except Exception as e:
+            print(e)
+        finally:
+            if self.conn:
+                self.conn.close()
