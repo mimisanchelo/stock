@@ -1,8 +1,9 @@
 import sys
 from PyQt5.uic import loadUi
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QMainWindow, QWidget, QLabel, QLineEdit, QApplication, QStackedWidget, QPushButton, QTableWidget, QMessageBox
 from PyQt5.QtGui import QFont as qfont
+from PyQt5.QtCore import Qt
 import pip._vendor.requests as request
 from dialogWindow import Ui_DialogWindow_add
 
@@ -16,6 +17,7 @@ import resource_rc
 
 class MainWindow(QMainWindow):
     data = Database()
+    currentUser = None
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -54,11 +56,13 @@ class MainWindow(QMainWindow):
         self.login_page = self.findChild(QWidget, 'login_page') 
         self.signup_page = self.findChild(QWidget, 'signup_page') 
         
-        #connect btns
+        #------------ CONNECT BTNS
+        # watchlist menu
         self.addTicker_main.clicked.connect(self.openAddTicker)
         self.deleteTicker_main.clicked.connect(self.deleteTicker)
         self.clearList_main.clicked.connect(self.clearWatchList)
-        self.pushButton_sum_main.clicked.connect(self.fetchTickerInformation)
+        # on click show data of ticker
+        self.table_watchlist.selectionModel().selectionChanged.connect(self.fetchTickerInformation)
         
         # connect pages
         self.user_btn.clicked.connect(self.on_user_btn)
@@ -69,6 +73,9 @@ class MainWindow(QMainWindow):
         self.signup_btn_signup.clicked.connect(self.signupFunction)
         self.signup_btn_login.clicked.connect(self.on_signup_btn)
         self.login_btn_login.clicked.connect(self.loginFunction)
+
+
+        
         
         
         # set font_size
@@ -76,7 +83,13 @@ class MainWindow(QMainWindow):
         font = qfont()
         font.setPointSize(9)
         self.table_watchlist.setFont(font)
+        # turn off edit triggers
+        self.table_watchlist.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.tableWidget_sum_1.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.tableWidget_sum_2.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.tableWidget_sum_3.setEditTriggers(QTableWidget.NoEditTriggers)
 
+        # passwordMODE
         self.inputPassword_signup1.setEchoMode(QtWidgets.QLineEdit.Password)
         self.inputPassword_signup2.setEchoMode(QtWidgets.QLineEdit.Password)
         self.inputPassword_login.setEchoMode(QtWidgets.QLineEdit.Password)
@@ -94,6 +107,7 @@ class MainWindow(QMainWindow):
             self.stackedWidget.setCurrentWidget(self.signup_page)
     def on_watchlist(self):
             self.stackedWidget.setCurrentWidget(self.watchlist_page)
+
     # LOGIN SYSTEM
     def loginFunction(self):
         user = self.inputEmail_login.text()
@@ -107,11 +121,14 @@ class MainWindow(QMainWindow):
                 self.errorLabel_login.setText('')
                 self.stackedWidget.setCurrentIndex(0)
                 print("Successfully logged in.")
+                self.currentUser = profile
+                print(self.currentUser)
             else:
                 self.inputEmail_login.setText('')
                 self.inputPassword_login.setText('')
                 
                 self.errorLabel_login.setText("Invalid username or password")
+
     # SIGNUP SYSTEM
     def signupFunction(self):
         user = self.inputEmail_signup.text()
@@ -164,6 +181,15 @@ class MainWindow(QMainWindow):
             self.table_watchlist.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(f"{float(response_ticker['change']):.2f}"))
             self.table_watchlist.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f"{float(response_ticker['percent_change']):.2f}"))
             self.table_watchlist.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(f"{response_ticker['volume']}"))
+
+            if float(response_ticker['change']) > 0 and float(response_ticker['percent_change']) > 0:
+                 self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(0,255,0))
+                 self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
+            
+            else:
+                self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(255,0,0))
+                self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
+
             
 
     # FETCH TICKER INFORMATION
@@ -208,7 +234,10 @@ class MainWindow(QMainWindow):
             self.tableWidget_sum_3.setItem(0, 6, QtWidgets.QTableWidgetItem(f"{response_profile['website']}"))
 
         except KeyError:
+            self.tableWidget_sum_3.setColumnCount(0)
+            self.tableWidget_sum_3.setHorizontalHeaderItem(0, QtWidgets.QTableWidgetItem('TICKER PROFILE'))
             QMessageBox.information(self, "Ticker information", f"Ticker: {ticker} not Found.\nPlease check your spelling and try again.")
+
 
     # CLEAR WATCHLIST
     def clearWatchList(self):
@@ -261,8 +290,15 @@ class MainWindow(QMainWindow):
             self.table_watchlist.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f"{float(response_quote['percent_change']):.2f}"))
             self.table_watchlist.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(f"{response_quote['volume']}"))
         except KeyError:
-            print('das')
-            # self.table_watchlist.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem("No Data Found"))
+            pass
+
+        if float(response_quote['change']) > 0 and float(response_quote['percent_change']) > 0:
+                self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(0,255,0))
+                self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
+        else:
+            self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(255,0,0))
+            self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
+
 
        
 
