@@ -1,8 +1,8 @@
 import sys
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets, QtGui
-from PyQt5.QtWidgets import QMainWindow, QWidget, QLabel, QLineEdit, QApplication, QStackedWidget, QPushButton, QTableWidget, QMessageBox
-from PyQt5.QtGui import QFont as qfont
+from PyQt5.QtWidgets import QMainWindow, QWidget, QLabel, QComboBox, QLineEdit, QApplication, QStackedWidget, QPushButton, QTableWidget, QMessageBox
+from PyQt5.QtGui import QFont as qfont, QValidator, QIntValidator, QDoubleValidator
 from PyQt5.QtCore import Qt
 import pip._vendor.requests as request
 from dialogWindow import Ui_DialogWindow_add
@@ -16,8 +16,9 @@ load_dotenv()
 import resource_rc
 
 class MainWindow(QMainWindow):
+    
     data = Database()
-    currentUser = None
+    currentUser = (4, 'admin@mail.ru', '123456')
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -33,9 +34,9 @@ class MainWindow(QMainWindow):
         self.tableWidget_sum_1 = self.findChild(QTableWidget, 'tableWidget_summary_1')
         self.tableWidget_sum_2 = self.findChild(QTableWidget, 'tableWidget_summary_2')
         self.tableWidget_sum_3 = self.findChild(QTableWidget, 'tableWidget_summary_3')
-        self.pushButton_sum_main = self.findChild(QPushButton, 'pushButton_summary_main')
         self.user_btn = self.findChild(QPushButton, 'user_btn')
         self.watchlist_btn = self.findChild(QPushButton, 'watchlist_btn')
+        self.calculator_btn = self.findChild(QPushButton, 'calculator_btn')
         self.stackedWidget = self.findChild(QStackedWidget, 'stackedWidget')
         self.login_btn_welcome = self.findChild(QPushButton, 'pushButton_login')
         self.signup_btn_welcome = self.findChild(QPushButton, 'pushButton_signup')
@@ -50,32 +51,49 @@ class MainWindow(QMainWindow):
         self.inputEmail_signup = self.findChild(QLineEdit, 'lineEdit_email_signup')
         self.inputPassword_signup1 = self.findChild(QLineEdit, 'lineEdit_password_signup1')
         self.inputPassword_signup2 = self.findChild(QLineEdit, 'lineEdit_password_signup2')
+
+        self.comboBox_tickers = self.findChild(QComboBox, 'comboBox_tickers')
+        self.table_targetPrice = self.findChild(QTableWidget, 'tableWidget_targetPrice')
+        self.lineEdit_curentPrice = self.findChild(QLineEdit, 'lineEdit_curentPrice')
+        self.lineEdit_totalShares = self.findChild(QLineEdit, 'lineEdit_totalShares')
+        self.label_RiskedinTrade = self.findChild(QLabel, 'label_RiskedinTrade')
+        self.lineEdit_precentRisked = self.findChild(QLineEdit, 'lineEdit_precentRisked')
+        self.lineEdit_precentGained = self.findChild(QLineEdit, 'lineEdit_precentGained')
+        self.pushButton_addtoTrack = self.findChild(QPushButton, 'pushButton_addtoTrack')
+
         #pages
         self.watchlist_page = self.findChild(QWidget, 'watchlitMenu_page') 
         self.welcome_page = self.findChild(QWidget, 'welcome_page') 
         self.login_page = self.findChild(QWidget, 'login_page') 
         self.signup_page = self.findChild(QWidget, 'signup_page') 
+        self.calculator_page = self.findChild(QWidget, 'entry_exit_page') 
         
-        #------------ CONNECT BTNS
+        #------------ CONNECT BTNs
         # watchlist menu
         self.addTicker_main.clicked.connect(self.openAddTicker)
         self.deleteTicker_main.clicked.connect(self.deleteTicker)
         self.clearList_main.clicked.connect(self.clearWatchList)
         # on click show data of ticker
         self.table_watchlist.selectionModel().selectionChanged.connect(self.fetchTickerInformation)
+        self.comboBox_tickers.activated.connect(self.calculator_loadTickerInfo)
         
-        # connect pages
+
+        self.lineEdit_totalShares.textChanged[str].connect(self.calculator_riskedTrade)
+        self.lineEdit_precentRisked.textChanged[str].connect(self.calculator_precentRisked)
+        self.lineEdit_precentGained.textChanged[str].connect(self.calculator_precentGained)
+        self.pushButton_addtoTrack.clicked.connect(self.calculator_precentRisked)
+        
+        # CONNECT PAGES
         self.user_btn.clicked.connect(self.on_user_btn)
         self.watchlist_btn.clicked.connect(self.on_watchlist)
+        self.calculator_btn.clicked.connect(self.on_calculator)
+        # --------------------------
         self.login_btn_welcome.clicked.connect(self.on_login_btn)
         self.signup_btn_welcome.clicked.connect(self.on_signup_btn)
         self.login_btn_signup.clicked.connect(self.on_login_btn)
         self.signup_btn_signup.clicked.connect(self.signupFunction)
         self.signup_btn_login.clicked.connect(self.on_signup_btn)
         self.login_btn_login.clicked.connect(self.loginFunction)
-
-
-        
         
         
         # set font_size
@@ -100,15 +118,118 @@ class MainWindow(QMainWindow):
 
     # SWITCH PAGES
     def on_user_btn(self):
-            self.stackedWidget.setCurrentWidget(self.welcome_page)
+        self.stackedWidget.setCurrentWidget(self.welcome_page)
     def on_login_btn(self):
-            self.stackedWidget.setCurrentWidget(self.login_page)
+        self.stackedWidget.setCurrentWidget(self.login_page)
     def on_signup_btn(self):
-            self.stackedWidget.setCurrentWidget(self.signup_page)
+        self.stackedWidget.setCurrentWidget(self.signup_page)
     def on_watchlist(self):
-            self.stackedWidget.setCurrentWidget(self.watchlist_page)
+        self.stackedWidget.setCurrentWidget(self.watchlist_page)
+        self.fetch_watchlist()
+    def on_calculator(self):
+        self.stackedWidget.setCurrentWidget(self.calculator_page)
+        self.calculator_loadDataUser()
 
-    # LOGIN SYSTEM
+    # CALCULATOR LOAD DATA OF THE USER
+    def calculator_loadDataUser(self):
+        if self.currentUser == None:
+            QMessageBox.information(self, "Need to Login", "Please Login to your account to plan your futher trades")
+        else:
+            self.comboBox_tickers.clear()
+            for ticker in self.data.show_watchList(self.currentUser[0]):
+                self.comboBox_tickers.addItem(ticker[1])
+
+    def calculator_loadTickerInfo(self):
+        # if self.comboBox_tickers.currentText() == 'None':
+        #     QMessageBox.information(self, "Empty Ticker", "Please pick a ticker from the list")
+        # else:
+        url = "https://twelve-data1.p.rapidapi.com/price"
+        querystring = {"symbol":'AAPL',"format":"json","outputsize":"30"}
+        response_price = request.get(url, headers=headers, params=querystring).json()
+        self.lineEdit_curentPrice.setText(f"{float(response_price['price']):.2f}")
+
+    # SET TOTAL $ CALC RISKED IN TRADE
+    def calculator_riskedTrade(self):
+        # check if current price is set
+        if self.lineEdit_curentPrice.text() == '':
+            QMessageBox.information(self, "Ticker", "Please choose a ticker from the list")
+            return
+        
+        #validate share values
+        validator = QIntValidator(0, 999999999)
+        self.lineEdit_totalShares.setValidator(validator)
+
+        try:
+            labelRisked = float(self.lineEdit_curentPrice.text()) * int(self.lineEdit_totalShares.text())
+        except ValueError:
+            if self.lineEdit_totalShares.text() == '':
+                return
+            QMessageBox.information(self, "Wrong Input", "Please entry a valid number")
+            return
+        
+        return self.label_RiskedinTrade.setText(str(f'{labelRisked:.2f}'))
+       
+    # SET % RISKED IN TRADE
+    def calculator_precentRisked(self):
+        # check if current price is set
+        if self.lineEdit_curentPrice.text() == '' and self.label_RiskedinTrade.text() == '':
+            QMessageBox.information(self, "Ticker", "Please choose a ticker from the list")
+            return
+        
+        #validate %Risked value
+        validator = QDoubleValidator(0, 9999, 2)
+        self.lineEdit_precentRisked.setValidator(validator)
+
+        try:
+            self.calculator_riskedTrade()
+
+            #set max loss
+            maxLoss = float(self.lineEdit_precentRisked.text()) * float(self.label_RiskedinTrade.text()) / 100
+            self.table_targetPrice.setItem(0, 6, QtWidgets.QTableWidgetItem(f'$ {maxLoss:.2f}'))
+
+            #set stop loss
+            priceForShare = float(self.lineEdit_precentRisked.text()) * float(self.lineEdit_curentPrice.text()) / 100
+            stopLoss = float(self.lineEdit_curentPrice.text()) - priceForShare
+            self.table_targetPrice.setItem(0, 5, QtWidgets.QTableWidgetItem(f'$ {stopLoss:.2f}'))
+        except ValueError:
+            if self.lineEdit_precentRisked.text() == '':
+                self.table_targetPrice.setItem(0, 6, QtWidgets.QTableWidgetItem(''))
+                self.table_targetPrice.setItem(0, 5, QtWidgets.QTableWidgetItem(''))
+
+
+    def calculator_precentGained(self):
+        # check if current price is set
+        if self.lineEdit_curentPrice.text() == '' and self.label_RiskedinTrade.text() == '':
+            QMessageBox.information(self, "Ticker", "Please choose a ticker from the list")
+            return
+        
+        #validate %Risked value
+        validator = QDoubleValidator(0, 9999, 2)
+        self.lineEdit_precentGained.setValidator(validator)
+
+        try:
+            self.calculator_riskedTrade()
+
+            #set max gained price
+            maxGained = float(self.lineEdit_precentGained.text()) * float(self.label_RiskedinTrade.text()) / 100
+            self.table_targetPrice.setItem(0, 3, QtWidgets.QTableWidgetItem(f'$ {maxGained:.2f}'))
+
+            #set leaving trade
+            priceForShare = float(self.lineEdit_precentGained.text()) * float(self.lineEdit_curentPrice.text()) / 100
+            stopGain = float(self.lineEdit_curentPrice.text()) + priceForShare
+            self.table_targetPrice.setItem(0, 2, QtWidgets.QTableWidgetItem(f'$ {stopGain:.2f}'))
+
+            #rise to
+            priceRise = priceForShare * float(self.lineEdit_totalShares.text())
+            self.table_targetPrice.setItem(0, 0, QtWidgets.QTableWidgetItem(f'$ {priceRise:.2f}'))
+            
+        except ValueError:
+            if self.lineEdit_precentRisked.text() == '':
+                self.table_targetPrice.setItem(0, 2, QtWidgets.QTableWidgetItem(''))
+                self.table_targetPrice.setItem(0, 3, QtWidgets.QTableWidgetItem(''))
+
+
+    # LOGIN SYSTEM2
     def loginFunction(self):
         user = self.inputEmail_login.text()
         password = self.inputPassword_login.text()
@@ -122,7 +243,7 @@ class MainWindow(QMainWindow):
                 self.stackedWidget.setCurrentIndex(0)
                 print("Successfully logged in.")
                 self.currentUser = profile
-                print(self.currentUser)
+                self.fetch_watchlist()
             else:
                 self.inputEmail_login.setText('')
                 self.inputPassword_login.setText('')
@@ -134,7 +255,6 @@ class MainWindow(QMainWindow):
         user = self.inputEmail_signup.text()
         password = self.inputPassword_signup1.text()
         password2 = self.inputPassword_signup2.text()
-        print(user, password, password2)
 
         if len(user) == 0 or len(password) == 0:
             self.errorLabel_signup.setText('Please fill in all fields')
@@ -149,46 +269,46 @@ class MainWindow(QMainWindow):
             else:
                 #add data
                 self.data.insert_user_profile(user,password)
-                #clean fields
-                self.inputEmail_signup.text('')
-                self.inputPassword_signup1.text('')
-                self.inputPassword_signup2.text('')
-                self.errorLabel_signup.setText("")
                 #move on
                 self.stackedWidget.setCurrentIndex(2)
-                QMessageBox.information(self, 'Success', 'You have successfully signed up')    
-    
+                QMessageBox.information(self, 'Success', 'You have successfully signed up') 
+                
     #on start
     def fetch_watchlist(self):
-        for ticker in self.data.show_watchList():
-            rowPosition = self.table_watchlist.rowCount()
-            self.table_watchlist.insertRow(rowPosition)
-            # fetch fresh data
-            url = "https://twelve-data1.p.rapidapi.com/quote"
-            querystring = {"symbol":ticker[1],"interval":"1day","outputsize":"30","format":"json"}
-            response_ticker = request.get(url, headers=headers, params=querystring).json()
+        if self.currentUser == None:
+             return 
+        else:
+            #clear tab
+            self.table_watchlist.setRowCount(0)
+            #load data of spec user
+            for ticker in self.data.show_watchList(self.currentUser[0]):
+                rowPosition = self.table_watchlist.rowCount()
+                self.table_watchlist.insertRow(rowPosition)
+                # fetch fresh data
+                url = "https://twelve-data1.p.rapidapi.com/quote"
+                querystring = {"symbol":ticker[1],"interval":"1day","outputsize":"30","format":"json"}
+                response_ticker = request.get(url, headers=headers, params=querystring).json()
 
-            # fetch actual price data
-            url_price = "https://twelve-data1.p.rapidapi.com/price"
+                # fetch actual price data
+                url_price = "https://twelve-data1.p.rapidapi.com/price"
 
-            query = {"symbol":ticker[1],"format":"json","outputsize":"30"}
-            response_price = request.get(url_price, headers=headers, params=query).json()
-            print(response_price)
-            # display data
-            self.table_watchlist.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(ticker[1]))
-            self.table_watchlist.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(ticker[2]))
-            self.table_watchlist.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(f"{float(response_price['price']):.2f}"))
-            self.table_watchlist.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(f"{float(response_ticker['change']):.2f}"))
-            self.table_watchlist.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f"{float(response_ticker['percent_change']):.2f}"))
-            self.table_watchlist.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(f"{response_ticker['volume']}"))
+                query = {"symbol":ticker[1],"format":"json","outputsize":"30"}
+                response_price = request.get(url_price, headers=headers, params=query).json()
+                # display data
+                self.table_watchlist.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(ticker[1]))
+                self.table_watchlist.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(ticker[2]))
+                self.table_watchlist.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(f"{float(response_price['price']):.2f}"))
+                self.table_watchlist.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(f"{float(response_ticker['change']):.2f}"))
+                self.table_watchlist.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f"{float(response_ticker['percent_change']):.2f}"))
+                self.table_watchlist.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(f"{response_ticker['volume']}"))
 
-            if float(response_ticker['change']) > 0 and float(response_ticker['percent_change']) > 0:
-                 self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(0,255,0))
-                 self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
-            
-            else:
-                self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(255,0,0))
-                self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
+                if float(response_ticker['change']) > 0 and float(response_ticker['percent_change']) > 0:
+                    self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(0,255,0))
+                    self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
+                
+                else:
+                    self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(255,0,0))
+                    self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
 
             
 
