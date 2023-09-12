@@ -12,6 +12,7 @@ class Database():
         self.port = os.getenv('PORT')
         self.database = os.getenv('DB')
         self.con = None
+        self.create_tables
 
     def connect(self):
         self.conn = mysql.connector.connect(
@@ -22,11 +23,34 @@ class Database():
             database=self.database
         )
         self.c = self.conn.cursor()
+        
 
-    def show_watchList(self):
+    def create_tables(self):
         try:
             self.connect()
-            self.c.execute('select * from watchlist')
+            self.c.execute('''CREATE TABLE IF NOT EXISTS watchlist(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                ticker VARCHAR(15) not NULL UNIQUE,
+                name VARCHAR(150) not NULL,
+                exchange VARCHAR(15)not NULL,
+                userID INT,
+                FOREIGN KEY (userID) REFERENCES users(id)
+            )''')
+            
+            self.c.execute('''CREATE TABLE IF NOT EXISTS users(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                email VARCHAR(255) not NULL UNIQUE,
+                password VARCHAR(300) not NULL,
+            )''')
+
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+        
+    def show_watchList(self, userid):
+        try:
+            self.connect()
+            self.c.execute(f'select * from watchlist where uid="{userid}"')
             return self.c.fetchall()
     
         except Exception as e:
