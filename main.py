@@ -144,6 +144,7 @@ class MainWindow(QMainWindow):
         SelectedRow = self.table_trackingTickers.currentRow()
         self.table_trackingTickers.removeRow(SelectedRow)    
 
+
     # ADD TO TRACK LIST
     def addtoTrack(self):  
         rowPosition = self.table_trackingTickers.rowCount()

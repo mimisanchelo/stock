@@ -153,6 +153,7 @@ class Database():
             if self.conn:
                 self.conn.close()
 
+
     def delete_position_to_track(self, ticker):
         try:
             self.connect()
