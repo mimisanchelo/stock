@@ -60,6 +60,8 @@ class MainWindow(QMainWindow):
         self.lineEdit_precentRisked = self.findChild(QLineEdit, 'lineEdit_precentRisked')
         self.lineEdit_precentGained = self.findChild(QLineEdit, 'lineEdit_precentGained')
         self.pushButton_addtoTrack = self.findChild(QPushButton, 'pushButton_addtoTrack')
+        self.table_trackingTickers = self.findChild(QTableWidget, 'table_trackingTickers')
+        self.deleteToTrack_btn = self.findChild(QPushButton, 'pushButton_delTickerTrack')
 
         #pages
         self.watchlist_page = self.findChild(QWidget, 'watchlitMenu_page') 
@@ -81,7 +83,9 @@ class MainWindow(QMainWindow):
         self.lineEdit_totalShares.textChanged[str].connect(self.calculator_riskedTrade)
         self.lineEdit_precentRisked.textChanged[str].connect(self.calculator_precentRisked)
         self.lineEdit_precentGained.textChanged[str].connect(self.calculator_precentGained)
-        self.pushButton_addtoTrack.clicked.connect(self.calculator_precentRisked)
+        self.pushButton_addtoTrack.clicked.connect(self.addtoTrack)
+        self.deleteToTrack_btn.clicked.connect(self.deletetoTrack)
+
         
         # CONNECT PAGES
         self.user_btn.clicked.connect(self.on_user_btn)
@@ -130,14 +134,89 @@ class MainWindow(QMainWindow):
         self.stackedWidget.setCurrentWidget(self.calculator_page)
         self.calculator_loadDataUser()
 
-    # CALCULATOR LOAD DATA OF THE USER
+    # DELETE FROM TO TRACK LIST
+    def deletetoTrack(self):
+        itemRow = self.table_trackingTickers.currentRow()
+        ticker = self.table_trackingTickers.item(itemRow, 0).text()
+        # delete from db
+        self.data.delete_position_to_track(ticker)
+        # delete from the table
+        SelectedRow = self.table_trackingTickers.currentRow()
+        self.table_trackingTickers.removeRow(SelectedRow)    
+
+    # ADD TO TRACK LIST
+    def addtoTrack(self):  
+        rowPosition = self.table_trackingTickers.rowCount()
+        self.table_trackingTickers.insertRow(rowPosition)
+        try:
+            takeProfit = self.table_targetPrice.item(2,0).text().replace('$', '')
+            stopLoss = self.table_targetPrice.item(5,0).text().replace('$', '')
+            totalShares = self.lineEdit_totalShares.text()
+            entryPrice = self.lineEdit_curentPrice.text()   
+            symbol = self.comboBox_tickers.currentText()
+
+            url = "https://twelve-data1.p.rapidapi.com/price"
+            querystring = {"symbol":'AAPL',"format":"json","outputsize":"30"}
+            response_price = request.get(url, headers=headers, params=querystring).json()
+
+            self.table_trackingTickers.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(symbol))
+            self.table_trackingTickers.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(takeProfit))
+            self.table_trackingTickers.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(stopLoss))
+            self.table_trackingTickers.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(totalShares))
+            self.table_trackingTickers.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(entryPrice))
+            self.table_trackingTickers.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(f"{float(response_price['price']):.2f}"))
+            
+            earned = float(response_price['price']) - float(entryPrice)
+            self.table_trackingTickers.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f'{earned:.2f}'))
+            if earned > 0:
+                self.table_trackingTickers.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
+            else: 
+                self.table_trackingTickers.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
+
+            self.data.add_position_to_track(self.currentUser[0], symbol, entryPrice, totalShares, takeProfit, stopLoss)
+        except AttributeError:
+            QMessageBox.warning(self, 'Warning', 'Please fill all the fields to track the trade')
+              
+
+    # FETCH USER`S DATA ON LOAD CALCULATOR PAGE
     def calculator_loadDataUser(self):
         if self.currentUser == None:
             QMessageBox.information(self, "Need to Login", "Please Login to your account to plan your futher trades")
         else:
+            #clear
             self.comboBox_tickers.clear()
+            self.table_trackingTickers.setRowCount(0)
+
+            #add rows to table
+            rowPosition = self.table_trackingTickers.rowCount()
+            self.table_trackingTickers.insertRow(rowPosition)
+
+            #loop data
             for ticker in self.data.show_watchList(self.currentUser[0]):
                 self.comboBox_tickers.addItem(ticker[1])
+
+            url = "https://twelve-data1.p.rapidapi.com/price"
+            querystring = {"symbol":'AAPL',"format":"json","outputsize":"30"}
+            response_price = request.get(url, headers=headers, params=querystring).json()
+
+            userTracker = self.data.fetch_user_tracks(self.currentUser[0])[0]
+            #display data on the table
+            print(userTracker)
+            self.table_trackingTickers.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(f'{userTracker[5]}'))
+            self.table_trackingTickers.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(f'{userTracker[6]}'))
+            self.table_trackingTickers.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(f'{userTracker[4]}'))
+            self.table_trackingTickers.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(f'{userTracker[3]}'))
+            self.table_trackingTickers.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(f'{userTracker[2]}'))
+            self.table_trackingTickers.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(f"{float(response_price['price']):.2f}"))
+
+            earned = float(response_price['price']) - float(userTracker[3])
+            self.table_trackingTickers.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f"{earned:.2f}"))
+            if earned > 0:
+                self.table_trackingTickers.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
+            else: 
+                self.table_trackingTickers.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
+
+            
 
     def calculator_loadTickerInfo(self):
         # if self.comboBox_tickers.currentText() == 'None':
@@ -167,34 +246,35 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Wrong Input", "Please entry a valid number")
             return
         
-        return self.label_RiskedinTrade.setText(str(f'{labelRisked:.2f}'))
+        self.label_RiskedinTrade.setText(str(f'{labelRisked:.2f}'))
        
     # SET % RISKED IN TRADE
     def calculator_precentRisked(self):
         # check if current price is set
-        if self.lineEdit_curentPrice.text() == '' and self.label_RiskedinTrade.text() == '':
-            QMessageBox.information(self, "Ticker", "Please choose a ticker from the list")
-            return
+        # if self.lineEdit_curentPrice.text() == '' and self.label_RiskedinTrade.text() == '':
+        #     QMessageBox.information(self, "Ticker", "Please choose a ticker from the list")
+        #     return
         
         #validate %Risked value
         validator = QDoubleValidator(0, 9999, 2)
         self.lineEdit_precentRisked.setValidator(validator)
 
         try:
-            self.calculator_riskedTrade()
-
             #set max loss
             maxLoss = float(self.lineEdit_precentRisked.text()) * float(self.label_RiskedinTrade.text()) / 100
-            self.table_targetPrice.setItem(0, 6, QtWidgets.QTableWidgetItem(f'$ {maxLoss:.2f}'))
+            self.table_targetPrice.setItem(6, 0, QtWidgets.QTableWidgetItem(f'$ {maxLoss:.2f}'))
 
             #set stop loss
             priceForShare = float(self.lineEdit_precentRisked.text()) * float(self.lineEdit_curentPrice.text()) / 100
             stopLoss = float(self.lineEdit_curentPrice.text()) - priceForShare
-            self.table_targetPrice.setItem(0, 5, QtWidgets.QTableWidgetItem(f'$ {stopLoss:.2f}'))
+            self.table_targetPrice.setItem(5, 0, QtWidgets.QTableWidgetItem(f'$ {stopLoss:.2f}'))
+
         except ValueError:
             if self.lineEdit_precentRisked.text() == '':
-                self.table_targetPrice.setItem(0, 6, QtWidgets.QTableWidgetItem(''))
-                self.table_targetPrice.setItem(0, 5, QtWidgets.QTableWidgetItem(''))
+                self.table_targetPrice.setItem(5, 0, QtWidgets.QTableWidgetItem(''))
+                self.table_targetPrice.setItem(6, 0, QtWidgets.QTableWidgetItem(''))
+
+            
 
 
     def calculator_precentGained(self):
@@ -212,12 +292,12 @@ class MainWindow(QMainWindow):
 
             #set max gained price
             maxGained = float(self.lineEdit_precentGained.text()) * float(self.label_RiskedinTrade.text()) / 100
-            self.table_targetPrice.setItem(0, 3, QtWidgets.QTableWidgetItem(f'$ {maxGained:.2f}'))
+            self.table_targetPrice.setItem(3, 0, QtWidgets.QTableWidgetItem(f'$ {maxGained:.2f}'))
 
             #set leaving trade
             priceForShare = float(self.lineEdit_precentGained.text()) * float(self.lineEdit_curentPrice.text()) / 100
             stopGain = float(self.lineEdit_curentPrice.text()) + priceForShare
-            self.table_targetPrice.setItem(0, 2, QtWidgets.QTableWidgetItem(f'$ {stopGain:.2f}'))
+            self.table_targetPrice.setItem(2, 0, QtWidgets.QTableWidgetItem(f'$ {stopGain:.2f}'))
 
             #rise to
             priceRise = priceForShare * float(self.lineEdit_totalShares.text())
@@ -225,8 +305,8 @@ class MainWindow(QMainWindow):
             
         except ValueError:
             if self.lineEdit_precentRisked.text() == '':
-                self.table_targetPrice.setItem(0, 2, QtWidgets.QTableWidgetItem(''))
-                self.table_targetPrice.setItem(0, 3, QtWidgets.QTableWidgetItem(''))
+                self.table_targetPrice.setItem(2, 0, QtWidgets.QTableWidgetItem(''))
+                self.table_targetPrice.setItem(3, 0, QtWidgets.QTableWidgetItem(''))
 
 
     # LOGIN SYSTEM2
@@ -285,30 +365,30 @@ class MainWindow(QMainWindow):
                 rowPosition = self.table_watchlist.rowCount()
                 self.table_watchlist.insertRow(rowPosition)
                 # fetch fresh data
-                url = "https://twelve-data1.p.rapidapi.com/quote"
-                querystring = {"symbol":ticker[1],"interval":"1day","outputsize":"30","format":"json"}
-                response_ticker = request.get(url, headers=headers, params=querystring).json()
+                # url = "https://twelve-data1.p.rapidapi.com/quote"
+                # querystring = {"symbol":ticker[1],"interval":"1day","outputsize":"30","format":"json"}
+                # response_ticker = request.get(url, headers=headers, params=querystring).json()
 
-                # fetch actual price data
-                url_price = "https://twelve-data1.p.rapidapi.com/price"
+                # # fetch actual price data
+                # url_price = "https://twelve-data1.p.rapidapi.com/price"
 
-                query = {"symbol":ticker[1],"format":"json","outputsize":"30"}
-                response_price = request.get(url_price, headers=headers, params=query).json()
+                # query = {"symbol":ticker[1],"format":"json","outputsize":"30"}
+                # response_price = request.get(url_price, headers=headers, params=query).json()
                 # display data
-                self.table_watchlist.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(ticker[1]))
-                self.table_watchlist.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(ticker[2]))
-                self.table_watchlist.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(f"{float(response_price['price']):.2f}"))
-                self.table_watchlist.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(f"{float(response_ticker['change']):.2f}"))
-                self.table_watchlist.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f"{float(response_ticker['percent_change']):.2f}"))
-                self.table_watchlist.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(f"{response_ticker['volume']}"))
+                # self.table_watchlist.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(ticker[1]))
+                # self.table_watchlist.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(ticker[2]))
+                # self.table_watchlist.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(f"{float(response_price['price']):.2f}"))
+                # self.table_watchlist.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(f"{float(response_ticker['change']):.2f}"))
+                # self.table_watchlist.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f"{float(response_ticker['percent_change']):.2f}"))
+                # self.table_watchlist.setItem(rowPosition, 5, QtWidgets.QTableWidgetItem(f"{response_ticker['volume']}"))
 
-                if float(response_ticker['change']) > 0 and float(response_ticker['percent_change']) > 0:
-                    self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(0,255,0))
-                    self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
+                # if float(response_ticker['change']) > 0 and float(response_ticker['percent_change']) > 0:
+                #     self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(0,255,0))
+                #     self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
                 
-                else:
-                    self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(255,0,0))
-                    self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
+                # else:
+                #     self.table_watchlist.item(rowPosition, 3).setForeground(QtGui.QColor(255,0,0))
+                #     self.table_watchlist.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
 
             
 
@@ -400,8 +480,8 @@ class MainWindow(QMainWindow):
 
         # display data
         rowPosition = self.table_watchlist.rowCount()
-        
         self.table_watchlist.insertRow(rowPosition)
+
         try:
             self.table_watchlist.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(ticker))
             self.table_watchlist.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(f"{response_quote['name']}"))

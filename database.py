@@ -128,3 +128,38 @@ class Database():
         finally:
             if self.conn:
                 self.conn.close()
+
+# -------------------------- POSITION SIZE PAGE -------------------------- #
+
+    def add_position_to_track(self, userid, symbol, entry_price, shares, take_profit, stop_loss):
+        try:
+            self.connect()
+            self.c.execute(f'INSERT into pos_tracker values(NULL, "{userid}", "{symbol}", "{entry_price}", "{shares}", "{take_profit}", "{stop_loss}")')
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+        finally:
+            if self.conn:
+                self.conn.close()
+
+    def fetch_user_tracks(self, userid):
+        try:
+            self.connect()
+            self.c.execute(f'SELECT * from pos_tracker where user_id="{userid}"')
+            return self.c.fetchall()
+        except Exception as e:
+            print(e)
+        finally:
+            if self.conn:
+                self.conn.close()
+
+    def delete_position_to_track(self, ticker):
+        try:
+            self.connect()
+            self.c.execute(f'delete from pos_tracker where ticker="{ticker}"')
+            self.conn.commit()
+        except Exception as e:
+            print('could not delete from tracker')
+        finally:
+            if self.conn:
+                self.conn.close()
