@@ -1,14 +1,14 @@
 import sys
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets, QtGui
-from PyQt5.QtWidgets import QMainWindow, QWidget, QLabel, QComboBox, QLineEdit, QApplication, QStackedWidget, QPushButton, QTableWidget, QMessageBox
-from PyQt5.QtGui import QFont as qfont, QValidator, QIntValidator, QDoubleValidator
+from PyQt5.QtWidgets import QMainWindow, QWidget,QTextEdit, QLabel, QComboBox, QLineEdit, QApplication, QStackedWidget, QPushButton, QTableWidget, QMessageBox
+from PyQt5.QtGui import QFont as qfont, QIntValidator, QDoubleValidator
 from PyQt5.QtCore import Qt
 import pip._vendor.requests as request
 from dialogWindow import Ui_DialogWindow_add
 
 from database import Database
-from helper import headers
+from helper import headers, send_alert
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -37,6 +37,10 @@ class MainWindow(QMainWindow):
         self.user_btn = self.findChild(QPushButton, 'user_btn')
         self.watchlist_btn = self.findChild(QPushButton, 'watchlist_btn')
         self.calculator_btn = self.findChild(QPushButton, 'calculator_btn')
+        self.news_btn = self.findChild(QPushButton, 'news_btn')
+        self.alert_btn = self.findChild(QPushButton, 'alert_btn')
+        self.market_btn = self.findChild(QPushButton, 'market_btn')
+        self.label_page = self.findChild(QLabel, 'label_page')
         self.stackedWidget = self.findChild(QStackedWidget, 'stackedWidget')
         self.login_btn_welcome = self.findChild(QPushButton, 'pushButton_login')
         self.signup_btn_welcome = self.findChild(QPushButton, 'pushButton_signup')
@@ -52,6 +56,7 @@ class MainWindow(QMainWindow):
         self.inputPassword_signup1 = self.findChild(QLineEdit, 'lineEdit_password_signup1')
         self.inputPassword_signup2 = self.findChild(QLineEdit, 'lineEdit_password_signup2')
 
+        # calculator page
         self.comboBox_tickers = self.findChild(QComboBox, 'comboBox_tickers')
         self.table_targetPrice = self.findChild(QTableWidget, 'tableWidget_targetPrice')
         self.lineEdit_curentPrice = self.findChild(QLineEdit, 'lineEdit_curentPrice')
@@ -63,12 +68,23 @@ class MainWindow(QMainWindow):
         self.table_trackingTickers = self.findChild(QTableWidget, 'table_trackingTickers')
         self.deleteToTrack_btn = self.findChild(QPushButton, 'pushButton_delTickerTrack')
 
+        # alert page
+        self.alertSet_btn = self.findChild(QPushButton, 'pushButton_alertSet')
+        self.textAlert = self.findChild(QTextEdit, 'textEdit_alertSummary')
+        self.lineEdit_email = self.findChild(QLineEdit, 'lineEdit_alertEmail')
+        self.lineEdit_value = self.findChild(QLineEdit, 'lineEdit_alertValue')
+        self.lineEdit_ticker = self.findChild(QLineEdit, 'lineEdit_alertTicker')
+        self.comboBox_symbol = self.findChild(QComboBox, 'comboBox_alertTickers')
+        self.comboBox_upDown = self.findChild(QComboBox, 'comboBox_alertUpDown')
+        self.comboBox_alertType = self.findChild(QComboBox, 'comboBox_alertType')
+
         #pages
         self.watchlist_page = self.findChild(QWidget, 'watchlitMenu_page') 
         self.welcome_page = self.findChild(QWidget, 'welcome_page') 
         self.login_page = self.findChild(QWidget, 'login_page') 
         self.signup_page = self.findChild(QWidget, 'signup_page') 
-        self.calculator_page = self.findChild(QWidget, 'entry_exit_page') 
+        self.calculator_page = self.findChild(QWidget, 'entry_exit_page')
+        self.alert_page = self.findChild(QWidget, 'alert_page')
         
         #------------ CONNECT BTNs
         # watchlist menu
@@ -78,6 +94,7 @@ class MainWindow(QMainWindow):
         # on click show data of ticker
         self.table_watchlist.selectionModel().selectionChanged.connect(self.fetchTickerInformation)
         self.comboBox_tickers.activated.connect(self.calculator_loadTickerInfo)
+        self.comboBox_symbol.activated.connect(self.alert_chooseSymbol)
         
 
         self.lineEdit_totalShares.textChanged[str].connect(self.calculator_riskedTrade)
@@ -91,6 +108,9 @@ class MainWindow(QMainWindow):
         self.user_btn.clicked.connect(self.on_user_btn)
         self.watchlist_btn.clicked.connect(self.on_watchlist)
         self.calculator_btn.clicked.connect(self.on_calculator)
+        self.market_btn.clicked.connect(self.on_calculator)
+        self.news_btn.clicked.connect(self.on_calculator)
+        self.alert_btn.clicked.connect(self.on_alert)
         # --------------------------
         self.login_btn_welcome.clicked.connect(self.on_login_btn)
         self.signup_btn_welcome.clicked.connect(self.on_signup_btn)
@@ -98,18 +118,22 @@ class MainWindow(QMainWindow):
         self.signup_btn_signup.clicked.connect(self.signupFunction)
         self.signup_btn_login.clicked.connect(self.on_signup_btn)
         self.login_btn_login.clicked.connect(self.loginFunction)
-        
+        # --------------------------------
+        self.alertSet_btn.clicked.connect(self.alert_setAlert)
         
         # set font_size
         self.fetch_watchlist()
         font = qfont()
         font.setPointSize(9)
         self.table_watchlist.setFont(font)
+
         # turn off edit triggers
         self.table_watchlist.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tableWidget_sum_1.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tableWidget_sum_2.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tableWidget_sum_3.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.table_trackingTickers.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.table_targetPrice.setEditTriggers(QTableWidget.NoEditTriggers)
 
         # passwordMODE
         self.inputPassword_signup1.setEchoMode(QtWidgets.QLineEdit.Password)
@@ -123,33 +147,72 @@ class MainWindow(QMainWindow):
     # SWITCH PAGES
     def on_user_btn(self):
         self.stackedWidget.setCurrentWidget(self.welcome_page)
+        self.label_page.setText('Profile')
     def on_login_btn(self):
         self.stackedWidget.setCurrentWidget(self.login_page)
+        self.label_page.setText('Login')
     def on_signup_btn(self):
         self.stackedWidget.setCurrentWidget(self.signup_page)
+        self.label_page.setText('Signup')
     def on_watchlist(self):
         self.stackedWidget.setCurrentWidget(self.watchlist_page)
         self.fetch_watchlist()
+        self.label_page.setText('Watchlist')
     def on_calculator(self):
         self.stackedWidget.setCurrentWidget(self.calculator_page)
         self.calculator_loadDataUser()
+        self.label_page.setText('Calculator')
+    def on_alert(self):
+        self.stackedWidget.setCurrentWidget(self.alert_page)
+        self.alert_loadUserData()
+
+    # display chosen ticker
+    def alert_chooseSymbol(self):
+        self.lineEdit_ticker.setText(self.comboBox_symbol.currentText())
+
+    def alert_loadUserData(self):
+        if self.currentUser != 'None':
+            #clear
+            self.comboBox_symbol.clear()
+            #loop data
+            for ticker in self.data.show_watchList(self.currentUser[0]):
+                self.comboBox_symbol.addItem(ticker[1])
+
+            self.lineEdit_email.setText(self.currentUser[1])
+            self.textAlert.setPlainText('Notify me when stock [SYMBOL] [COMPANY NAME] Price is below [TARGET VALUE]')
+
+    def alert_setAlert(self):
+        try:
+            reciever = self.lineEdit_email.text()
+            symbol = self.lineEdit_ticker.text()
+            message = self.textAlert.toPlainText()
+
+            send_alert(reciever, symbol, message)
+        except AttributeError:
+            QMessageBox.information(self, "Empty fields", "Please fill out all the fields")
+            return
+        except Exception:
+            QMessageBox.information(self, 'Error', f"Error sending email to {reciever}:")
+            return
 
     # DELETE FROM TO TRACK LIST
     def deletetoTrack(self):
-        itemRow = self.table_trackingTickers.currentRow()
-        ticker = self.table_trackingTickers.item(itemRow, 0).text()
-        # delete from db
-        self.data.delete_position_to_track(ticker)
-        # delete from the table
-        SelectedRow = self.table_trackingTickers.currentRow()
-        self.table_trackingTickers.removeRow(SelectedRow)    
-
+        try:
+            itemRow = self.table_trackingTickers.currentRow()
+            ticker = self.table_trackingTickers.item(itemRow, 0).text()
+            # delete from db
+            self.data.delete_position_to_track(ticker)
+            # delete from the table
+            SelectedRow = self.table_trackingTickers.currentRow()
+            self.table_trackingTickers.removeRow(SelectedRow)   
+        except AttributeError:
+            QMessageBox.information(self, "Error", "Please select a ticker to delete from the list")
+            return
 
     # ADD TO TRACK LIST
     def addtoTrack(self):  
-        rowPosition = self.table_trackingTickers.rowCount()
-        self.table_trackingTickers.insertRow(rowPosition)
         try:
+            # assign data to track
             takeProfit = self.table_targetPrice.item(2,0).text().replace('$', '')
             stopLoss = self.table_targetPrice.item(5,0).text().replace('$', '')
             totalShares = self.lineEdit_totalShares.text()
@@ -160,6 +223,10 @@ class MainWindow(QMainWindow):
             querystring = {"symbol":'AAPL',"format":"json","outputsize":"30"}
             response_price = request.get(url, headers=headers, params=querystring).json()
 
+            # add row
+            rowPosition = self.table_trackingTickers.rowCount()
+            self.table_trackingTickers.insertRow(rowPosition)
+            # display data
             self.table_trackingTickers.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(symbol))
             self.table_trackingTickers.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(takeProfit))
             self.table_trackingTickers.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(stopLoss))
@@ -176,7 +243,8 @@ class MainWindow(QMainWindow):
 
             self.data.add_position_to_track(self.currentUser[0], symbol, entryPrice, totalShares, takeProfit, stopLoss)
         except AttributeError:
-            QMessageBox.warning(self, 'Warning', 'Please fill all the fields to track the trade')
+            QMessageBox.information(self, 'Warning', 'Please fill all the fields to track the trade')
+            return
               
 
     # FETCH USER`S DATA ON LOAD CALCULATOR PAGE
@@ -200,22 +268,27 @@ class MainWindow(QMainWindow):
             querystring = {"symbol":'AAPL',"format":"json","outputsize":"30"}
             response_price = request.get(url, headers=headers, params=querystring).json()
 
-            userTracker = self.data.fetch_user_tracks(self.currentUser[0])[0]
+            userTracker = self.data.fetch_user_tracks(self.currentUser[0])
             #display data on the table
             print(userTracker)
-            self.table_trackingTickers.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(f'{userTracker[5]}'))
-            self.table_trackingTickers.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(f'{userTracker[6]}'))
-            self.table_trackingTickers.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(f'{userTracker[4]}'))
-            self.table_trackingTickers.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(f'{userTracker[3]}'))
-            self.table_trackingTickers.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(f'{userTracker[2]}'))
-            self.table_trackingTickers.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(f"{float(response_price['price']):.2f}"))
+            for ticker in userTracker:
+                self.table_trackingTickers.setItem(rowPosition, 6, QtWidgets.QTableWidgetItem(f'{ticker[5]}'))
+                self.table_trackingTickers.setItem(rowPosition, 7, QtWidgets.QTableWidgetItem(f'{ticker[6]}'))
+                self.table_trackingTickers.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(f'{ticker[4]}'))
+                self.table_trackingTickers.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(f'{ticker[3]}'))
+                self.table_trackingTickers.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(f'{ticker[2]}'))
+                self.table_trackingTickers.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(f"{float(response_price['price']):.2f}"))
 
-            earned = float(response_price['price']) - float(userTracker[3])
-            self.table_trackingTickers.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f"{earned:.2f}"))
-            if earned > 0:
-                self.table_trackingTickers.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
-            else: 
-                self.table_trackingTickers.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
+                earned = float(response_price['price']) - float(ticker[3])
+                self.table_trackingTickers.setItem(rowPosition, 4, QtWidgets.QTableWidgetItem(f"{earned:.2f}"))
+                if earned > 0:
+                    self.table_trackingTickers.item(rowPosition, 4).setForeground(QtGui.QColor(0,255,0))
+                else: 
+                    self.table_trackingTickers.item(rowPosition, 4).setForeground(QtGui.QColor(255,0,0))
+
+            # if userTracker == 'None':
+            #     return
+            # else:
 
             
 
