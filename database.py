@@ -153,7 +153,6 @@ class Database():
             if self.conn:
                 self.conn.close()
 
-
     def delete_position_to_track(self, ticker):
         try:
             self.connect()
@@ -161,6 +160,41 @@ class Database():
             self.conn.commit()
         except Exception as e:
             print('could not delete from tracker')
+        finally:
+            if self.conn:
+                self.conn.close()
+
+# -------------------------- ALERT PAGE -------------------------- #
+
+    def fetch_users_alerts(self, userid):
+        try:
+            self.connect()
+            self.c.execute(f'select * from alerts where uid="{userid}"')
+            return self.c.fetchall()
+        except Exception as e:
+            print(e)
+        finally:
+            if self.conn:
+                self.conn.close()
+    
+    def add_alert(self, userid, symbol, type, up_down,  value, email, message):
+        try:
+            self.connect()
+            self.c.execute(f'INSERT into alerts values(NULL, "{userid}", "{symbol}", "{type}", "{up_down}", "{value}", "{email}", "{message}")')
+            self.conn.commit()
+        except Exception as e:
+            print(e)
+        finally:
+            if self.conn:
+                self.conn.close()
+
+    def delete_alert(self, id, ticker):
+        try:
+            self.connect()
+            self.c.execute(f'delete from alerts where id="{id}" and ticker="{ticker}"')
+            self.conn.commit()
+        except Exception as e:
+            print('could not delete from alerts')
         finally:
             if self.conn:
                 self.conn.close()

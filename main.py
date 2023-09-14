@@ -7,6 +7,9 @@ from PyQt5.QtCore import Qt
 import pip._vendor.requests as request
 from dialogWindow import Ui_DialogWindow_add
 
+import threading
+import time
+
 from database import Database
 from helper import headers, send_alert
 from dotenv import load_dotenv
@@ -140,6 +143,7 @@ class MainWindow(QMainWindow):
         self.inputPassword_signup2.setEchoMode(QtWidgets.QLineEdit.Password)
         self.inputPassword_login.setEchoMode(QtWidgets.QLineEdit.Password)
         
+        threading.Timer(10.0, self.alert_conditions).start()
         
         #show the app
         self.show()
@@ -181,19 +185,94 @@ class MainWindow(QMainWindow):
             self.lineEdit_email.setText(self.currentUser[1])
             self.textAlert.setPlainText('Notify me when stock [SYMBOL] [COMPANY NAME] Price is below [TARGET VALUE]')
 
+    def alert_conditions(self):
+        alerts = self.data.fetch_users_alerts(self.currentUser[0])
+        
+        while len(alerts) >= 0:
+            for alert in alerts:
+                print(alert)
+                if alert[3] == 'Price':
+                    url = "https://twelve-data1.p.rapidapi.com/price"
+                    querystring = {"symbol":alert[2],"format":"json","outputsize":"30"}
+                    response = request.get(url, headers=headers, params=querystring).json()
+                    new_price = response['price']
+
+                    if float(new_price) < alert[5] and alert[4] == 'Above':
+                        pass
+
+                    elif float(new_price) >= alert[5] and alert[4] == 'Above':
+                        # send and then delete alert
+                        self.send_emailAlert(alert[6], alert[2], alert[7])
+                        self.data.delete_alert(alert[0], alert[2])
+
+                    elif float(new_price) <= alert[5] and alert[4] == 'Below':
+                        # send and then delete alert
+                        self.send_emailAlert(alert[6], alert[2], alert[7])
+                        self.data.delete_alert(alert[0], alert[2])
+
+                    elif float(new_price) >= alert[5] and alert[4] == 'Below':
+                        pass
+                    
+
+                elif alert[3] == 'Daily Price Change':
+                    url = "https://twelve-data1.p.rapidapi.com/quote"
+                    querystring = {"symbol":alert[2],"interval":"15min","outputsize":"30","format":"json"}
+                    response = request.get(url, headers=headers, params=querystring).json()
+                    price_change = response['change']
+
+                    if abs(float(price_change)) < alert[5] and alert[4] == 'Above':
+                        return
+                    elif abs(float(price_change)) >= alert[5] and alert[4] == 'Above':
+                        # send and then delete alert
+                        self.send_emailAlert(alert[6], alert[2], alert[7])
+                        self.data.delete_alert(alert[0], alert[2])
+
+                    elif abs(float(price_change)) <= alert[5] and alert[4] == 'Below':
+                        # send and then delete alert
+                        self.send_emailAlert(alert[6], alert[2], alert[7])
+                        self.data.delete_alert(alert[0], alert[2])
+                    elif abs(float(price_change)) >= alert[5] and alert[4] == 'Below':
+                        pass
+                
+                else:
+                    url = "https://twelve-data1.p.rapidapi.com/quote"
+                    querystring = {"symbol":alert[2],"interval":"15min","outputsize":"30","format":"json"}
+                    response = request.get(url, headers=headers, params=querystring).json()
+                    price_change = response['percent_change']
+
+                    if abs(float(price_change)) < alert[5] and alert[4] == 'Above':
+                        pass
+                    elif abs(float(price_change)) >= alert[5] and alert[4] == 'Above':
+                        # send and then delete alert
+                        self.send_emailAlert(alert[6], alert[2], alert[7])
+                        self.data.delete_alert(alert[0], alert[2])
+
+                    elif abs(float(price_change)) <= alert[5] and alert[4] == 'Below':
+                        # send and then delete alert
+                        self.send_emailAlert(alert[6], alert[2], alert[7])
+                        self.data.delete_alert(alert[0], alert[2])
+                    elif abs(float(price_change)) >= alert[5] and alert[4] == 'Below':
+                        pass
+                    
+                time.sleep(10)
+
     def alert_setAlert(self):
         try:
             reciever = self.lineEdit_email.text()
             symbol = self.lineEdit_ticker.text()
             message = self.textAlert.toPlainText()
-
-            send_alert(reciever, symbol, message)
+            upOrDown = self.comboBox_upDown.currentText()
+            value = self.lineEdit_value.text()
+            type = self.comboBox_alertType.currentText()
+            # add an alert to db
+            self.data.add_alert(self.currentUser[0], symbol, type, upOrDown, value, reciever, message)
+            QMessageBox.information(self, "Success", f"Alert on ticker {symbol} was added.\nNotification will be send when\n{type} is {upOrDown} {value} ")
         except AttributeError:
             QMessageBox.information(self, "Empty fields", "Please fill out all the fields")
             return
-        except Exception:
-            QMessageBox.information(self, 'Error', f"Error sending email to {reciever}:")
-            return
+    
+    def send_emailAlert(self, receiver, symbol, message):
+        send_alert(receiver, symbol, message) 
 
     # DELETE FROM TO TRACK LIST
     def deletetoTrack(self):

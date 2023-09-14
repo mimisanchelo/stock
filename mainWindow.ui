@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1130</width>
+    <width>949</width>
     <height>835</height>
    </rect>
   </property>
@@ -2640,12 +2640,12 @@ color: rgb(0, 0, 0);</string>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Price Change</string>
+                     <string>Daily Price Change</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Price Change %</string>
+                     <string>Daily Price Change %</string>
                     </property>
                    </item>
                   </widget>
