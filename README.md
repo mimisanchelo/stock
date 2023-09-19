@@ -17,5 +17,25 @@ Registered and logged-in users can track the ticker of interest, monitor daily p
 ## Installation
 
 1. Clone the repository:</br>
-```[pip install foobar](https://github.com/mimisanchelo/stock.git)https://github.com/mimisanchelo/stock.git)```
+    ```python
+   https://github.com/mimisanchelo/stock.git
+    ```
+   
+1. Create virtual environment:
+   
+    ```python
+   py -m venv venv
+    ```
+    ```python
+    source venv/Scripts/activate
+    ```
+
+1. Install the required packages:
+   
+    ```python
+   pip install -r requirements.txt
+    ```
+1. Create a MySQL database.
+1. Change environmental variables to your own database URL.
+1. Run the application.
 
