@@ -16,6 +16,6 @@ Registered and logged-in users can track the ticker of interest, monitor daily p
 
 ## Installation
 
-1. Clone the repository:\n
+1. Clone the repository:</br>
 ```pip install foobar```
 
