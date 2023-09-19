@@ -6,7 +6,18 @@
 <br></br>
 
 This is a Python-based stock market Helper project built using the Qt framework. The application uses a MySQL database. Passwords are hashed and salted using sha256 to protect sensitive data.
-</br>
+<br></br>
 ## Features
 
 Registered and logged-in users can track the ticker of interest, monitor daily price changes, calculate entry and exit point with desired precentages, set alarm that will be send by email when price or percentage reaches the deasired user ticker mark.
+
+## Preview
+** images**
+
+## Installation
+<ol>
+  <li>Clone the repository:</li>
+  ```https://github.com/mimisanchelo/stock.git
+pip install foobar
+```
+</ol>
