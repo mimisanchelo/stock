@@ -17,7 +17,7 @@ Registered and logged-in users can track the ticker of interest, monitor daily p
 ## Installation
 <ol>
   <li>Clone the repository:</li>
-  ```python
-  https://github.com/mimisanchelo/stock.git
+  ```github
+  pip install foobar
   ```
 </ol>
