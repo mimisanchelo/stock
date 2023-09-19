@@ -1,3 +1,3 @@
 # Stock Market Helper
 
-![img icons8 width='40px' ](https://github.com/mimisanchelo/stock/assets/80426185/23c2fe40-b0a0-416b-a4be-ce1fb2f00553)
+[<img src='https://github.com/mimisanchelo/stock/assets/80426185/23c2fe40-b0a0-416b-a4be-ce1fb2f00553'>)
