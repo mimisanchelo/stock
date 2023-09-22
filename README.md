@@ -23,7 +23,7 @@ Registered and logged-in users can track the ticker of interest, monitor daily p
 
 1. Clone the repository:</br>
     ```python
-   https://github.com/mimisanchelo/stock.git
+   https://github.com/mimisanchelo/stock-market-helper.git
     ```
    
 1. Create virtual environment:
