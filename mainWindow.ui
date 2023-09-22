@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>SM_Helper</class>
+ <widget class="QMainWindow" name="SM_Helper">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>949</width>
-    <height>835</height>
+    <width>1006</width>
+    <height>705</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(230, 230, 230);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -56,6 +59,10 @@
            <height>40</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(0, 28, 48);
+</string>
+         </property>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <property name="spacing">
            <number>0</number>
@@ -99,6 +106,15 @@
                 <bold>false</bold>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(218, 255, 251);</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Sunken</enum>
+              </property>
               <property name="text">
                <string>WATCHLIST</string>
               </property>
@@ -109,9 +125,12 @@
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>236</width>
+                <width>40</width>
                 <height>20</height>
                </size>
               </property>
@@ -120,13 +139,55 @@
            </layout>
           </item>
           <item>
+           <widget class="QLabel" name="label_nav_userName">
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Preferred</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>5</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QPushButton" name="user_btn">
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">border-radius: 50; border : 1px solid black; padding: 2; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+</string>
+            </property>
             <property name="text">
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="recource.qrc">
-              <normaloff>:/icon/icon/user-48.ico</normaloff>:/icon/icon/user-48.ico</iconset>
+             <iconset resource="resource.qrc">
+              <normaloff>:/icon/icon/user.ico</normaloff>:/icon/icon/user.ico</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -135,11 +196,20 @@
        </item>
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
+         <property name="cursor">
+          <cursorShape>ArrowCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(100, 204, 197);</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
          <property name="currentIndex">
-          <number>5</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="watchlitMenu_page">
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -147,13 +217,13 @@
             <number>0</number>
            </property>
            <property name="leftMargin">
-            <number>0</number>
+            <number>20</number>
            </property>
            <property name="topMargin">
-            <number>0</number>
+            <number>9</number>
            </property>
            <property name="rightMargin">
-            <number>9</number>
+            <number>20</number>
            </property>
            <property name="bottomMargin">
             <number>0</number>
@@ -206,6 +276,9 @@
                   <width>338</width>
                   <height>0</height>
                  </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
                 </property>
                 <property name="sizeAdjustPolicy">
                  <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -360,6 +433,13 @@
                     </property>
                     <item>
                      <widget class="QPushButton" name="pushButton_addTicker_main">
+                      <property name="styleSheet">
+                       <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+                      </property>
                       <property name="text">
                        <string>Add Ticker</string>
                       </property>
@@ -391,6 +471,13 @@
                         <width>29</width>
                         <height>0</height>
                        </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
                       </property>
                       <property name="text">
                        <string>Delete Ticker</string>
@@ -426,6 +513,13 @@
                     </property>
                     <item row="0" column="0" alignment="Qt::AlignRight">
                      <widget class="QPushButton" name="pushButton_clearList_main">
+                      <property name="styleSheet">
+                       <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+                      </property>
                       <property name="text">
                        <string>Clear List</string>
                       </property>
@@ -495,7 +589,7 @@
                 </property>
                 <property name="styleSheet">
                  <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
-</string>
+color: rgb((0, 28, 48));</string>
                 </property>
                 <property name="text">
                  <string>SUMMARY</string>
@@ -516,9 +610,9 @@
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0">
                  <property name="spacing">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <property name="leftMargin">
                   <number>0</number>
@@ -552,6 +646,9 @@
                      <height>239</height>
                     </size>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
                    <property name="sizeAdjustPolicy">
                     <enum>QAbstractScrollArea::AdjustToContents</enum>
                    </property>
@@ -572,6 +669,13 @@
                      <font>
                       <pointsize>10</pointsize>
                      </font>
+                    </property>
+                    <property name="background">
+                     <color>
+                      <red>23</red>
+                      <green>107</green>
+                      <blue>135</blue>
+                     </color>
                     </property>
                    </row>
                    <row>
@@ -645,6 +749,22 @@
                       <bold>false</bold>
                      </font>
                     </property>
+                    <property name="background">
+                     <color>
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </property>
+                    <property name="foreground">
+                     <brush brushstyle="NoBrush">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
+                      </color>
+                     </brush>
+                    </property>
                    </column>
                   </widget>
                  </item>
@@ -661,6 +781,9 @@
                      <width>240</width>
                      <height>16777215</height>
                     </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="sizeAdjustPolicy">
                     <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -734,6 +857,9 @@
                      <width>265</width>
                      <height>239</height>
                     </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="sizeAdjustPolicy">
                     <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -908,10 +1034,11 @@
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border-radius: 20px;
-font: 12pt &quot;MS Shell Dlg 2&quot;;
-background-color: rgb(90, 90, 90);
-color: rgb(255, 255, 255);</string>
+                    <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>Login</string>
@@ -952,10 +1079,11 @@ color: rgb(255, 255, 255);</string>
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border-radius: 25px;
-color: rgb(0, 0, 0);
-background-color: rgb(222, 222, 222);
-font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(0, 28, 48);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);</string>
                    </property>
                    <property name="text">
                     <string>Signup</string>
@@ -1020,7 +1148,8 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                     </sizepolicy>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 36pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 36pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
                    </property>
                    <property name="text">
                     <string>Login</string>
@@ -1039,7 +1168,8 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                     </sizepolicy>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
                    </property>
                    <property name="text">
                     <string>Login to continue</string>
@@ -1080,7 +1210,8 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                  <item>
                   <widget class="QLabel" name="label_3">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
                    </property>
                    <property name="text">
                     <string>Email:</string>
@@ -1088,7 +1219,19 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_login_login"/>
+                  <widget class="QLineEdit" name="lineEdit_login_login">
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <spacer name="verticalSpacer_7">
@@ -1106,7 +1249,8 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                  <item>
                   <widget class="QLabel" name="label_4">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
                    </property>
                    <property name="text">
                     <string>Password:</string>
@@ -1114,7 +1258,16 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_password_login"/>
+                  <widget class="QLineEdit" name="lineEdit_password_login">
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_Error_login">
@@ -1161,10 +1314,11 @@ color: rgb(255, 0, 0);</string>
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border-radius: 20px;
-font: 12pt &quot;MS Shell Dlg 2&quot;;
-background-color: rgb(90, 90, 90);
-color: rgb(255, 255, 255);</string>
+                    <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                    </property>
                    <property name="text">
                     <string>Login</string>
@@ -1203,7 +1357,8 @@ color: rgb(255, 255, 255);</string>
                     <item>
                      <widget class="QLabel" name="label_5">
                       <property name="styleSheet">
-                       <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+                       <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(0, 28, 48);</string>
                       </property>
                       <property name="text">
                        <string>or</string>
@@ -1258,7 +1413,7 @@ color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgb(0, 0, 0);
+color: rgb(0, 28, 48);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
 background-color: rgba(255, 255, 255, 0);</string>
                    </property>
@@ -1319,7 +1474,8 @@ background-color: rgba(255, 255, 255, 0);</string>
                     </sizepolicy>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 36pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 36pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(0, 28, 48);</string>
                    </property>
                    <property name="text">
                     <string>Signup</string>
@@ -1338,7 +1494,8 @@ background-color: rgba(255, 255, 255, 0);</string>
                     </sizepolicy>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(0, 28, 48);</string>
                    </property>
                    <property name="text">
                     <string>Signup to continue</string>
@@ -1379,7 +1536,8 @@ background-color: rgba(255, 255, 255, 0);</string>
                  <item>
                   <widget class="QLabel" name="label_7">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
                    </property>
                    <property name="text">
                     <string>Email:</string>
@@ -1387,7 +1545,16 @@ background-color: rgba(255, 255, 255, 0);</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_email_signup"/>
+                  <widget class="QLineEdit" name="lineEdit_email_signup">
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <spacer name="verticalSpacer_10">
@@ -1406,9 +1573,49 @@ background-color: rgba(255, 255, 255, 0);</string>
                   </spacer>
                  </item>
                  <item>
+                  <widget class="QLabel" name="label_24">
+                   <property name="styleSheet">
+                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
+                   </property>
+                   <property name="text">
+                    <string>Name:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_name_login">
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_15">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Preferred</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>10</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
                   <widget class="QLabel" name="label_8">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
                    </property>
                    <property name="text">
                     <string>Password:</string>
@@ -1416,7 +1623,16 @@ background-color: rgba(255, 255, 255, 0);</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_password_signup1"/>
+                  <widget class="QLineEdit" name="lineEdit_password_signup1">
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <spacer name="verticalSpacer_14">
@@ -1437,7 +1653,8 @@ background-color: rgba(255, 255, 255, 0);</string>
                  <item>
                   <widget class="QLabel" name="label_10">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
                    </property>
                    <property name="text">
                     <string>Password again:</string>
@@ -1445,7 +1662,16 @@ background-color: rgba(255, 255, 255, 0);</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_password_signup2"/>
+                  <widget class="QLineEdit" name="lineEdit_password_signup2">
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_Error_signup">
@@ -1495,10 +1721,11 @@ color: rgb(255, 0, 0);</string>
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border-radius: 20px;
+                    <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
 font: 12pt &quot;MS Shell Dlg 2&quot;;
-background-color: rgb(90, 90, 90);
-color: rgb(255, 255, 255);</string>
+background-color: rgb(0, 28, 48);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);</string>
                    </property>
                    <property name="text">
                     <string>Signup</string>
@@ -1525,9 +1752,9 @@ color: rgb(255, 255, 255);</string>
                   <widget class="QPushButton" name="pushButton_login_signupPage">
                    <property name="styleSheet">
                     <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: rgb(0, 0, 0);
+color: rgb(0, 28, 48);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
-background-color: rgba(255, 255, 255, 0);</string>
+</string>
                    </property>
                    <property name="text">
                     <string>I have an account</string>
@@ -1630,9 +1857,22 @@ background-color: rgba(255, 255, 255, 0);</string>
                         <verstretch>0</verstretch>
                        </sizepolicy>
                       </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 28, 48);</string>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::Box</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Plain</enum>
+                      </property>
                       <property name="sizeAdjustPolicy">
                        <enum>QAbstractScrollArea::AdjustToContents</enum>
                       </property>
+                      <attribute name="horizontalHeaderDefaultSectionSize">
+                       <number>96</number>
+                      </attribute>
                       <column>
                        <property name="text">
                         <string>Ticker</string>
@@ -1765,6 +2005,13 @@ background-color: rgba(255, 255, 255, 0);</string>
                        </property>
                        <item alignment="Qt::AlignHCenter">
                         <widget class="QPushButton" name="pushButton_delTickerTrack">
+                         <property name="styleSheet">
+                          <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+                         </property>
                          <property name="text">
                           <string>Delete Ticker</string>
                          </property>
@@ -1803,7 +2050,8 @@ background-color: rgba(255, 255, 255, 0);</string>
                     <item>
                      <widget class="QLabel" name="label_9">
                       <property name="styleSheet">
-                       <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                       <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
                       </property>
                       <property name="text">
                        <string>Position Sizing &amp; Stop Loss</string>
@@ -1817,7 +2065,7 @@ background-color: rgba(255, 255, 255, 0);</string>
                      <widget class="QLabel" name="label_11">
                       <property name="styleSheet">
                        <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
-color: rgb(0, 0, 0);</string>
+color: rgb((0, 28, 48));</string>
                       </property>
                       <property name="text">
                        <string>Getting out of Trade</string>
@@ -1852,6 +2100,12 @@ color: rgb(0, 0, 0);</string>
                    <property name="layoutDirection">
                     <enum>Qt::LeftToRight</enum>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(218, 255, 251);
+background-color: rgb(23, 107, 135);
+padding: 4;
+</string>
+                   </property>
                    <item>
                     <property name="text">
                      <string>None</string>
@@ -1865,7 +2119,7 @@ color: rgb(0, 0, 0);</string>
               <item>
                <widget class="QFrame" name="frame_20">
                 <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
+                 <enum>QFrame::NoFrame</enum>
                 </property>
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
@@ -1888,27 +2142,33 @@ color: rgb(0, 0, 0);</string>
                  </property>
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QFrame" name="frame_23">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(23, 107, 135);
+padding: 2;
+border-radius: 10;
+</string>
+                   </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Box</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Plain</enum>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_25">
                     <property name="spacing">
                      <number>10</number>
                     </property>
                     <property name="leftMargin">
-                     <number>0</number>
+                     <number>5</number>
                     </property>
                     <property name="topMargin">
-                     <number>0</number>
+                     <number>10</number>
                     </property>
                     <property name="rightMargin">
-                     <number>0</number>
+                     <number>5</number>
                     </property>
                     <property name="bottomMargin">
-                     <number>0</number>
+                     <number>10</number>
                     </property>
                     <item>
                      <widget class="QFrame" name="frame_24">
@@ -1940,7 +2200,8 @@ color: rgb(0, 0, 0);</string>
                        <item row="0" column="0">
                         <widget class="QLabel" name="label_14">
                          <property name="styleSheet">
-                          <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
                          </property>
                          <property name="text">
                           <string>Current Price</string>
@@ -1950,7 +2211,12 @@ color: rgb(0, 0, 0);</string>
                        <item row="0" column="1">
                         <widget class="QLineEdit" name="lineEdit_curentPrice">
                          <property name="styleSheet">
-                          <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+                          <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
                          </property>
                          <property name="text">
                           <string/>
@@ -1964,8 +2230,20 @@ color: rgb(0, 0, 0);</string>
                         <widget class="QLineEdit" name="lineEdit_totalShares">
                          <property name="font">
                           <font>
-                           <pointsize>10</pointsize>
+                           <family>MS Shell Dlg 2</family>
+                           <pointsize>12</pointsize>
+                           <weight>50</weight>
+                           <italic>false</italic>
+                           <bold>false</bold>
                           </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
                          </property>
                          <property name="maxLength">
                           <number>9</number>
@@ -1978,7 +2256,8 @@ color: rgb(0, 0, 0);</string>
                        <item row="1" column="0">
                         <widget class="QLabel" name="label_17">
                          <property name="styleSheet">
-                          <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
                          </property>
                          <property name="text">
                           <string>Total Shares</string>
@@ -1988,7 +2267,8 @@ color: rgb(0, 0, 0);</string>
                        <item row="2" column="0">
                         <widget class="QLabel" name="label_18">
                          <property name="styleSheet">
-                          <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
                          </property>
                          <property name="text">
                           <string>$ Risked in Trade</string>
@@ -1999,8 +2279,20 @@ color: rgb(0, 0, 0);</string>
                         <widget class="QLabel" name="label_RiskedinTrade">
                          <property name="font">
                           <font>
-                           <pointsize>10</pointsize>
+                           <family>MS Shell Dlg 2</family>
+                           <pointsize>12</pointsize>
+                           <weight>50</weight>
+                           <italic>false</italic>
+                           <bold>false</bold>
                           </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
                          </property>
                          <property name="text">
                           <string/>
@@ -2059,8 +2351,8 @@ color: rgb(0, 0, 0);</string>
                        <item row="0" column="0">
                         <widget class="QLabel" name="label_15">
                          <property name="styleSheet">
-                          <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
-</string>
+                          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
                          </property>
                          <property name="text">
                           <string>% Risked</string>
@@ -2092,8 +2384,20 @@ color: rgb(0, 0, 0);</string>
                          </property>
                          <property name="font">
                           <font>
-                           <pointsize>10</pointsize>
+                           <family>MS Shell Dlg 2</family>
+                           <pointsize>12</pointsize>
+                           <weight>50</weight>
+                           <italic>false</italic>
+                           <bold>false</bold>
                           </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
                          </property>
                          <property name="maxLength">
                           <number>4</number>
@@ -2106,7 +2410,8 @@ color: rgb(0, 0, 0);</string>
                        <item row="1" column="0">
                         <widget class="QLabel" name="label_16">
                          <property name="styleSheet">
-                          <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
                          </property>
                          <property name="text">
                           <string>% Gained</string>
@@ -2126,6 +2431,14 @@ color: rgb(0, 0, 0);</string>
                            <width>0</width>
                            <height>0</height>
                           </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
                          </property>
                          <property name="maxLength">
                           <number>4</number>
@@ -2160,6 +2473,10 @@ color: rgb(0, 0, 0);</string>
                      <width>250</width>
                      <height>16777215</height>
                     </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 28, 48);</string>
                    </property>
                    <property name="sizeAdjustPolicy">
                     <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -2352,8 +2669,20 @@ color: rgb(0, 0, 0);</string>
                    </property>
                    <property name="font">
                     <font>
-                     <pointsize>9</pointsize>
+                     <family>MS Shell Dlg 2</family>
+                     <pointsize>10</pointsize>
+                     <weight>50</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
                     </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+</string>
                    </property>
                    <property name="text">
                     <string>Add to Track</string>
@@ -2398,27 +2727,32 @@ color: rgb(0, 0, 0);</string>
                <pointsize>12</pointsize>
               </font>
              </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(23, 107, 135);
+padding: 3;
+border-radius: 10;</string>
+             </property>
              <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
+              <enum>QFrame::Box</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+              <enum>QFrame::Plain</enum>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_26">
               <property name="spacing">
                <number>10</number>
               </property>
               <property name="leftMargin">
-               <number>0</number>
+               <number>5</number>
               </property>
               <property name="topMargin">
                <number>0</number>
               </property>
               <property name="rightMargin">
-               <number>0</number>
+               <number>5</number>
               </property>
               <property name="bottomMargin">
-               <number>0</number>
+               <number>5</number>
               </property>
               <item>
                <widget class="QFrame" name="frame_30">
@@ -2434,8 +2768,8 @@ color: rgb(0, 0, 0);</string>
                    <property name="font">
                     <font>
                      <family>MS Shell Dlg 2</family>
-                     <pointsize>12</pointsize>
-                     <weight>50</weight>
+                     <pointsize>14</pointsize>
+                     <weight>9</weight>
                      <italic>false</italic>
                      <bold>false</bold>
                     </font>
@@ -2444,7 +2778,8 @@ color: rgb(0, 0, 0);</string>
                     <enum>Qt::NoFocus</enum>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::NoFrame</enum>
@@ -2510,6 +2845,11 @@ color: rgb(0, 0, 0);</string>
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:  rgb(218, 255, 251);
+color: rgb(0, 28, 48);
+border-radius: 0;</string>
+                   </property>
                    <property name="sizeAdjustPolicy">
                     <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
                    </property>
@@ -2560,7 +2900,8 @@ color: rgb(0, 0, 0);</string>
                     </sizepolicy>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
                    </property>
                    <property name="text">
                     <string>Symbol</string>
@@ -2587,6 +2928,14 @@ color: rgb(0, 0, 0);</string>
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
+                   </property>
                   </widget>
                  </item>
                  <item row="1" column="0">
@@ -2598,7 +2947,8 @@ color: rgb(0, 0, 0);</string>
                     </sizepolicy>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
                    </property>
                    <property name="text">
                     <string>Type: </string>
@@ -2633,6 +2983,11 @@ color: rgb(0, 0, 0);</string>
                      <pointsize>12</pointsize>
                     </font>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:  rgb(218, 255, 251);
+color: rgb(0, 28, 48);
+border-radius: 0;</string>
+                   </property>
                    <item>
                     <property name="text">
                      <string>Price</string>
@@ -2656,6 +3011,11 @@ color: rgb(0, 0, 0);</string>
                     <font>
                      <pointsize>12</pointsize>
                     </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color:  rgb(218, 255, 251);
+border-radius: 0;
+color: rgb((0, 28, 48));</string>
                    </property>
                    <item>
                     <property name="text">
@@ -2682,6 +3042,17 @@ color: rgb(0, 0, 0);</string>
                      <width>200</width>
                      <height>16777215</height>
                     </size>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::StrongFocus</enum>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
                    </property>
                   </widget>
                  </item>
@@ -2721,7 +3092,8 @@ color: rgb(0, 0, 0);</string>
                  <item alignment="Qt::AlignHCenter">
                   <widget class="QLabel" name="label_21">
                    <property name="styleSheet">
-                    <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+                    <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
                    </property>
                    <property name="text">
                     <string>Email</string>
@@ -2742,6 +3114,14 @@ color: rgb(0, 0, 0);</string>
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
+                   </property>
                   </widget>
                  </item>
                  <item alignment="Qt::AlignHCenter">
@@ -2757,7 +3137,7 @@ color: rgb(0, 0, 0);</string>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
-</string>
+color: rgb(218, 255, 251);</string>
                    </property>
                    <property name="text">
                     <string>Summary</string>
@@ -2766,6 +3146,14 @@ color: rgb(0, 0, 0);</string>
                  </item>
                  <item>
                   <widget class="QTextEdit" name="textEdit_alertSummary">
+                   <property name="styleSheet">
+                    <string notr="true">border-color: rgb(218, 255, 251);
+font: 12pt &quot;MS Shell Dlg 2&quot;;
+background-color:  rgb(218, 255, 251);
+color: rgb((0, 28, 48));
+border-radius:5;
+padding: 3;</string>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::Box</enum>
                    </property>
@@ -2776,12 +3164,579 @@ color: rgb(0, 0, 0);</string>
                  </item>
                  <item alignment="Qt::AlignHCenter">
                   <widget class="QPushButton" name="pushButton_alertSet">
+                   <property name="styleSheet">
+                    <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+                   </property>
                    <property name="text">
                     <string>Set Alert</string>
                    </property>
                   </widget>
                  </item>
                 </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="news_page">
+          <layout class="QVBoxLayout" name="verticalLayout_30">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item alignment="Qt::AlignHCenter">
+            <widget class="QLabel" name="label_22">
+             <property name="font">
+              <font>
+               <family>MS Shell Dlg 2</family>
+               <pointsize>12</pointsize>
+               <weight>9</weight>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+             </property>
+             <property name="text">
+              <string>NEWS PAGE IN PROGRESS</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="market_page">
+          <layout class="QVBoxLayout" name="verticalLayout_31">
+           <item alignment="Qt::AlignHCenter">
+            <widget class="QLabel" name="label_23">
+             <property name="styleSheet">
+              <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+             </property>
+             <property name="text">
+              <string>MARKET PAGE IN PROGRESS</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="user_page">
+          <layout class="QVBoxLayout" name="verticalLayout_32">
+           <item alignment="Qt::AlignTop">
+            <widget class="QFrame" name="frame_32">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>150</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>150</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border-radius: 20;
+background-color: rgb(23, 107, 135);</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Box</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <property name="leftMargin">
+               <number>10</number>
+              </property>
+              <property name="topMargin">
+               <number>10</number>
+              </property>
+              <property name="rightMargin">
+               <number>10</number>
+              </property>
+              <property name="bottomMargin">
+               <number>10</number>
+              </property>
+              <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+               <widget class="QFrame" name="frame_33">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_33">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+                  <widget class="QGraphicsView" name="graphicsView_userImg">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>100</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>100</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(255, 255, 255);
+border-radius:50;</string>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Plain</enum>
+                   </property>
+                   <property name="sizeAdjustPolicy">
+                    <enum>QAbstractScrollArea::AdjustToContents</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignTop">
+               <widget class="QFrame" name="frame_31">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_37">
+                 <item>
+                  <widget class="QLabel" name="label_25">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>25</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
+                   </property>
+                   <property name="text">
+                    <string>Owner Name:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_userName">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(218, 255, 251);</string>
+                   </property>
+                   <property name="text">
+                    <string>NAME</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_5">
+                   <property name="frameShadow">
+                    <enum>QFrame::Plain</enum>
+                   </property>
+                   <property name="lineWidth">
+                    <number>1</number>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_27">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>25</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(218, 255, 251);</string>
+                   </property>
+                   <property name="text">
+                    <string>Owner Email:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_userEmail">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(218, 255, 251);</string>
+                   </property>
+                   <property name="text">
+                    <string>EMAIL</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignTop">
+               <widget class="QFrame" name="frame_34">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_36">
+                 <item>
+                  <widget class="QLabel" name="label_29">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>some other information</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_30">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>some other information</string>
+                   </property>
+                   <property name="textFormat">
+                    <enum>Qt::PlainText</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignTop">
+               <widget class="QPushButton" name="pushButton_user_edit">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>22</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>22</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resource.qrc">
+                  <normaloff>:/icon/icon/settings.ico</normaloff>:/icon/icon/settings.ico</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>22</width>
+                  <height>22</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignTop">
+            <widget class="QFrame" name="frame_38">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_38">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>10</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item alignment="Qt::AlignHCenter">
+               <widget class="QLabel" name="label_28">
+                <property name="styleSheet">
+                 <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;
+color: rgb((0, 28, 48));</string>
+                </property>
+                <property name="text">
+                 <string>Alerts</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignTop">
+               <widget class="QListWidget" name="listWidget_userAlerts">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">border-radius: 10;
+background-color: rgb(23, 107, 135);
+padding: 10;</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Plain</enum>
+                </property>
+                <property name="sizeAdjustPolicy">
+                 <enum>QAbstractScrollArea::AdjustToContents</enum>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::DoubleClicked</set>
+                </property>
+                <property name="flow">
+                 <enum>QListView::TopToBottom</enum>
+                </property>
+                <property name="viewMode">
+                 <enum>QListView::ListMode</enum>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter">
+               <widget class="QPushButton" name="pushButton_del_userAlerts">
+                <property name="styleSheet">
+                 <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+                </property>
+                <property name="text">
+                 <string>Delete Ticker</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignBottom">
+            <widget class="QFrame" name="frame_39">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_39">
+              <item alignment="Qt::AlignRight|Qt::AlignBottom">
+               <widget class="QPushButton" name="pushButton_user_logout">
+                <property name="styleSheet">
+                 <string notr="true">border-radius: 50;; border : 1px solid black; padding: 4 12; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+                </property>
+                <property name="text">
+                 <string>Logout</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resource.qrc">
+                  <normaloff>:/icon/icon/account-logout-64.ico</normaloff>:/icon/icon/account-logout-64.ico</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="edit_user_page">
+          <layout class="QVBoxLayout" name="verticalLayout_34">
+           <item>
+            <widget class="QFrame" name="frame_35">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item alignment="Qt::AlignTop">
+               <widget class="QFrame" name="frame_36">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_35">
+                 <item>
+                  <widget class="QLabel" name="label_37">
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignTop">
+               <widget class="QFrame" name="frame_37">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <widget class="QLabel" name="label_33">
+                 <property name="geometry">
+                  <rect>
+                   <x>80</x>
+                   <y>130</y>
+                   <width>47</width>
+                   <height>13</height>
+                  </rect>
+                 </property>
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="label_34">
+                 <property name="geometry">
+                  <rect>
+                   <x>80</x>
+                   <y>180</y>
+                   <width>47</width>
+                   <height>13</height>
+                  </rect>
+                 </property>
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="label_35">
+                 <property name="geometry">
+                  <rect>
+                   <x>90</x>
+                   <y>220</y>
+                   <width>47</width>
+                   <height>13</height>
+                  </rect>
+                 </property>
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="label_36">
+                 <property name="geometry">
+                  <rect>
+                   <x>90</x>
+                   <y>280</y>
+                   <width>47</width>
+                   <height>13</height>
+                  </rect>
+                 </property>
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="pushButton_2">
+                 <property name="geometry">
+                  <rect>
+                   <x>60</x>
+                   <y>340</y>
+                   <width>75</width>
+                   <height>23</height>
+                  </rect>
+                 </property>
+                 <property name="text">
+                  <string>PushButton</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="pushButton_3">
+                 <property name="geometry">
+                  <rect>
+                   <x>240</x>
+                   <y>350</y>
+                   <width>75</width>
+                   <height>23</height>
+                  </rect>
+                 </property>
+                 <property name="text">
+                  <string>PushButton</string>
+                 </property>
+                </widget>
                </widget>
               </item>
              </layout>
@@ -2796,6 +3751,9 @@ color: rgb(0, 0, 0);</string>
     </item>
     <item row="0" column="0">
      <widget class="QWidget" name="full_menu_widget" native="true">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 28, 48);</string>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <property name="rightMargin">
         <number>9</number>
@@ -2805,12 +3763,15 @@ color: rgb(0, 0, 0);</string>
          <property name="spacing">
           <number>0</number>
          </property>
-         <item>
+         <item alignment="Qt::AlignHCenter">
           <widget class="QLabel" name="logo_label_3">
            <property name="font">
             <font>
              <pointsize>15</pointsize>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(218, 255, 251);</string>
            </property>
            <property name="text">
             <string>SM Helper</string>
@@ -2837,23 +3798,31 @@ color: rgb(0, 0, 0);</string>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>10</number>
+         </property>
          <property name="rightMargin">
           <number>0</number>
          </property>
          <item>
           <widget class="QPushButton" name="watchlist_btn">
+           <property name="styleSheet">
+            <string notr="true">border-radius: 20; border : 1px solid black; padding: 2; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);</string>
+           </property>
            <property name="text">
             <string>Watch List</string>
            </property>
            <property name="icon">
-            <iconset resource="recource.qrc">
-             <normaloff>:/icon/icon/home-4-32.ico</normaloff>
-             <normalon>:/icon/icon/home-4-48.ico</normalon>:/icon/icon/home-4-32.ico</iconset>
+            <iconset resource="resource.qrc">
+             <normaloff>:/icon/icon/star.ico</normaloff>:/icon/icon/star.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
-             <width>14</width>
-             <height>14</height>
+             <width>22</width>
+             <height>22</height>
             </size>
            </property>
            <property name="checkable">
@@ -2866,18 +3835,67 @@ color: rgb(0, 0, 0);</string>
          </item>
          <item>
           <widget class="QPushButton" name="calculator_btn">
+           <property name="styleSheet">
+            <string notr="true">border-radius: 20; border : 1px solid black; padding: 2; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);</string>
+           </property>
            <property name="text">
             <string>Position Size Calculator</string>
            </property>
            <property name="icon">
-            <iconset resource="recource.qrc">
-             <normaloff>:/icon/icon/dashboard-5-32.ico</normaloff>
-             <normalon>:/icon/icon/dashboard-5-48.ico</normalon>:/icon/icon/dashboard-5-32.ico</iconset>
+            <iconset>
+             <normaloff>icon/calc.ico</normaloff>icon/calc.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
-             <width>14</width>
-             <height>14</height>
+             <width>22</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_3">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(23, 107, 135);
+color: rgb(218, 255, 251);
+</string>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="alert_btn">
+           <property name="styleSheet">
+            <string notr="true">border-radius: 20; border : 1px solid black; padding: 2; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);</string>
+           </property>
+           <property name="text">
+            <string>Ticker Alert</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icon/alert.ico</normaloff>icon/alert.ico</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>22</width>
+             <height>22</height>
             </size>
            </property>
            <property name="checkable">
@@ -2890,18 +3908,23 @@ color: rgb(0, 0, 0);</string>
          </item>
          <item>
           <widget class="QPushButton" name="market_btn">
+           <property name="styleSheet">
+            <string notr="true">border-radius: 20; border : 1px solid black; padding: 2;
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251); </string>
+           </property>
            <property name="text">
             <string>Market Movers</string>
            </property>
            <property name="icon">
-            <iconset resource="recource.qrc">
-             <normaloff>:/icon/icon/activity-feed-32.ico</normaloff>
-             <normalon>:/icon/icon/activity-feed-48.ico</normalon>:/icon/icon/activity-feed-32.ico</iconset>
+            <iconset>
+             <normaloff>icon/market.ico</normaloff>icon/market.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
-             <width>14</width>
-             <height>14</height>
+             <width>22</width>
+             <height>22</height>
             </size>
            </property>
            <property name="checkable">
@@ -2909,47 +3932,43 @@ color: rgb(0, 0, 0);</string>
            </property>
            <property name="autoExclusive">
             <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_4">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(23, 107, 135);
+
+color: rgb(218, 255, 251);</string>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="news_btn">
+           <property name="styleSheet">
+            <string notr="true">border-radius: 20; border : 1px solid black; padding: 2; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);</string>
+           </property>
            <property name="text">
             <string>News</string>
            </property>
            <property name="icon">
-            <iconset resource="recource.qrc">
-             <normaloff>:/icon/icon/product-32.ico</normaloff>
-             <normalon>:/icon/icon/product-48.ico</normalon>:/icon/icon/product-32.ico</iconset>
+            <iconset>
+             <normaloff>icon/news.ico</normaloff>icon/news.ico</iconset>
            </property>
            <property name="iconSize">
             <size>
-             <width>14</width>
-             <height>14</height>
-            </size>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="alert_btn">
-           <property name="text">
-            <string>Ticker Alert</string>
-           </property>
-           <property name="icon">
-            <iconset resource="recource.qrc">
-             <normaloff>:/icon/icon/group-32.ico</normaloff>
-             <normalon>:/icon/icon/group-48.ico</normalon>:/icon/icon/group-32.ico</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>14</width>
-             <height>14</height>
+             <width>22</width>
+             <height>22</height>
             </size>
            </property>
            <property name="checkable">
@@ -2977,17 +3996,23 @@ color: rgb(0, 0, 0);</string>
        </item>
        <item>
         <widget class="QPushButton" name="exit_btn_2">
+         <property name="styleSheet">
+          <string notr="true">border-radius: 50;; border : 1px solid black; padding: 2; 
+background-color: rgb(23, 107, 135);
+border-color: rgb(218, 255, 251);
+color: rgb(218, 255, 251);</string>
+         </property>
          <property name="text">
           <string>Exit</string>
          </property>
          <property name="icon">
-          <iconset resource="recource.qrc">
-           <normaloff>:/icon/icon/close-window-64.ico</normaloff>:/icon/icon/close-window-64.ico</iconset>
+          <iconset>
+           <normaloff>icon/exit.ico</normaloff>icon/exit.ico</iconset>
          </property>
          <property name="iconSize">
           <size>
-           <width>14</width>
-           <height>14</height>
+           <width>22</width>
+           <height>22</height>
           </size>
          </property>
         </widget>
@@ -2999,13 +4024,13 @@ color: rgb(0, 0, 0);</string>
   </widget>
  </widget>
  <resources>
-  <include location="recource.qrc"/>
+  <include location="resource.qrc"/>
  </resources>
  <connections>
   <connection>
    <sender>exit_btn_2</sender>
    <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
+   <receiver>SM_Helper</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
