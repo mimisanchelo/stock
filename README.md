@@ -9,10 +9,15 @@ This is a Python-based stock market Helper project built using the Qt framework.
 <br></br>
 ## Features
 
-Registered and logged-in users can track the ticker of interest, monitor daily price changes, calculate entry and exit point with desired precentages, set alarm that will be send by email when price or percentage reaches the deasired user ticker mark.
+Registered and logged-in users can track the ticker of interest, monitor daily price changes, calculate entry and exit point with desired precentages, set alarm that will be send by email when price or percentage reaches the desired user ticker mark.
 
 ## Preview
-** images**
+<img width="75%" align="center" src="https://github.com/mimisanchelo/stock-market-helper/assets/80426185/b695638e-2bc7-47dc-a256-6c51d731d10f"/>
+<img width="75%" align="center" src="https://github.com/mimisanchelo/stock-market-helper/assets/80426185/2b274cee-9a75-453c-bf63-5b8065d1116d"/>
+<img width="75%" align="center" src="https://github.com/mimisanchelo/stock-market-helper/assets/80426185/5b260fd4-94c4-4601-b886-710d8fc37096"/>
+<img width="75%" align="center" src="https://github.com/mimisanchelo/stock-market-helper/assets/80426185/8f08e869-cc53-438f-9f8b-e95d6bc380a3"/>
+<img width="75%" align="center" src="https://github.com/mimisanchelo/stock-market-helper/assets/80426185/a7a1f53a-4669-482d-a94f-0f7c1fba1b5c"/>
+<img width="75%" align="center" src="https://github.com/mimisanchelo/stock-market-helper/assets/80426185/89f753b8-581f-4bc0-9dce-3c6914561f2c"/>
 
 ## Installation
 
